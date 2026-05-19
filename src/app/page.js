@@ -1,9 +1,29 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import logoImg from './image.png';
 
 export default function Home() {
+  const [formData, setFormData] = useState({
+    nama: '',
+    wa: '',
+    bisnis: '',
+    paket: '',
+    cerita: ''
+  });
+
+  const handleWA = (e) => {
+    if (e) e.preventDefault();
+    let text = `Halo Jokoweb, saya ingin konsultasi pembuatan website.\n\n`;
+    if (formData.nama) text += `*Nama*: ${formData.nama}\n`;
+    if (formData.wa) text += `*No. WA*: ${formData.wa}\n`;
+    if (formData.bisnis) text += `*Nama Bisnis*: ${formData.bisnis}\n`;
+    if (formData.paket && formData.paket !== 'Pilih paket...') text += `*Paket*: ${formData.paket}\n`;
+    if (formData.cerita) text += `*Detail*: ${formData.cerita}\n`;
+
+    const url = `https://wa.me/08123456789?text=${encodeURIComponent(text)}`;
+    window.open(url, '_blank');
+  };
   useEffect(() => {
     window.toggleFaq = (el) => {
       const item = el.closest('.faq-item');
@@ -50,7 +70,7 @@ export default function Home() {
             <button className="btn-hero-secondary" onClick={(e) => { document.getElementById('kontak').scrollIntoView({ behavior: 'smooth' }) }}>
               🚀 Buat Website Hari Ini
             </button>
-            <button className="btn-hero-wa">
+            <button className="btn-hero-wa" onClick={() => window.open('https://wa.me/08123456789', '_blank')}>
               💬 WhatsApp Kami
             </button>
           </div>
@@ -475,7 +495,7 @@ export default function Home() {
               <div className="ki-icon">💬</div>
               <div>
                 <div className="ki-title">WhatsApp</div>
-                <div className="ki-val">+62 812 8153 3402</div>
+                <div className="ki-val">+62 812 3456 7890</div>
                 <div className="ki-sub">Respon cepat jam kerja</div>
               </div>
             </div>
@@ -486,18 +506,7 @@ export default function Home() {
                 <div className="ki-val">halo@Jokoweb.id</div>
               </div>
             </div>
-            <div className="ki-item">
-              <div className="ki-icon">📱</div>
-              <div>
-                <div className="ki-title">Media sosial</div>
-                <div className="sosmed-row">
-                  <div className="sm-btn">ig</div>
-                  <div className="sm-btn">tt</div>
-                  <div className="sm-btn">in</div>
-                  <div className="sm-btn">yt</div>
-                </div>
-              </div>
-            </div>
+
             <div className="guarantee">
               <div className="guar-title">🛡️ Jaminan layanan kami</div>
               <div className="guar-list">
@@ -513,13 +522,13 @@ export default function Home() {
             <div className="form-title">Kirim pesan</div>
             <div className="form-sub">Isi form atau langsung WA kami untuk respons lebih cepat.</div>
             <div className="form-row">
-              <div className="fg"><label>Nama lengkap</label><input type="text" placeholder="Budi Santoso" /></div>
-              <div className="fg"><label>Nomor WhatsApp</label><input type="tel" placeholder="0812xxxxxxxx" /></div>
+              <div className="fg"><label>Nama lengkap</label><input type="text" placeholder="Budi Santoso" value={formData.nama} onChange={(e) => setFormData({ ...formData, nama: e.target.value })} /></div>
+              <div className="fg"><label>Nomor WhatsApp</label><input type="tel" placeholder="0812xxxxxxxx" value={formData.wa} onChange={(e) => setFormData({ ...formData, wa: e.target.value })} /></div>
             </div>
-            <div className="fg"><label>Nama bisnis</label><input type="text" placeholder="Nama toko / usaha Anda" /></div>
+            <div className="fg"><label>Nama bisnis</label><input type="text" placeholder="Nama toko / usaha Anda" value={formData.bisnis} onChange={(e) => setFormData({ ...formData, bisnis: e.target.value })} /></div>
             <div className="fg">
               <label>Paket yang diminati</label>
-              <select>
+              <select value={formData.paket} onChange={(e) => setFormData({ ...formData, paket: e.target.value })}>
                 <option>Pilih paket...</option>
                 <option>Basic — Rp 1.200.000</option>
                 <option>Standard — Rp 3.500.000</option>
@@ -527,10 +536,10 @@ export default function Home() {
                 <option>Custom (diskusi dulu)</option>
               </select>
             </div>
-            <div className="fg"><label>Ceritakan bisnis Anda</label><textarea placeholder="Bisnis saya bergerak di bidang... target pelanggan saya adalah..."></textarea></div>
-            <button className="btn-submit">Kirim & Konsultasi Gratis →</button>
+            <div className="fg"><label>Ceritakan bisnis Anda</label><textarea placeholder="Bisnis saya bergerak di bidang... target pelanggan saya adalah..." value={formData.cerita} onChange={(e) => setFormData({ ...formData, cerita: e.target.value })}></textarea></div>
+            <button className="btn-submit" onClick={handleWA}>Kirim & Konsultasi Gratis →</button>
             <div className="cta-alt-row">
-              <button className="btn-alt btn-alt-wa">💬 WhatsApp Langsung</button>
+              <button className="btn-alt btn-alt-wa" onClick={handleWA}>💬 WhatsApp Langsung</button>
               <button className="btn-alt btn-alt-port" onClick={(e) => { document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth' }) }}>📂 Lihat Portofolio</button>
             </div>
           </div>
@@ -543,12 +552,6 @@ export default function Home() {
           <div>
             <div className="f-logo"><Image src={logoImg} alt="Jokoweb Logo" width={34} height={34} style={{ borderRadius: '8px', objectFit: 'cover' }} /> Jokoweb</div>
             <p className="f-desc">Jasa pembuatan website profesional untuk UMKM dan bisnis lokal. Terjangkau, cepat, dan ada yang merawat setelah selesai.</p>
-            <div className="f-socials">
-              <div className="f-sm">ig</div>
-              <div className="f-sm">tt</div>
-              <div className="f-sm">in</div>
-              <div className="f-sm">yt</div>
-            </div>
           </div>
           <div>
             <div className="f-col-title">Layanan</div>
@@ -580,15 +583,10 @@ export default function Home() {
         </div>
         <div className="f-bottom">
           <span>© 2025 Jokoweb · Semarang, Jawa Tengah. All rights reserved.</span>
-          <div className="f-socials">
-            <div className="f-sm">ig</div>
-            <div className="f-sm">tt</div>
-            <div className="f-sm">in</div>
-          </div>
         </div>
       </footer>
 
-      <div className="wa-float" title="Chat WhatsApp">💬</div>
+      <div className="wa-float" title="Chat WhatsApp" onClick={() => window.open('https://wa.me/08123456789', '_blank')}>💬</div>
 
 
 
