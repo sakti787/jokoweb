@@ -1,5 +1,7 @@
 'use client';
 import { useEffect } from 'react';
+import Image from 'next/image';
+import logoImg from './image.png';
 
 export default function Home() {
   useEffect(() => {
@@ -19,7 +21,7 @@ export default function Home() {
       {/*  NAV  */}
       <nav>
         <div className="nav-logo">
-          <div className="logo-icon">W</div>
+          <Image src={logoImg} alt="Jokoweb Logo" width={36} height={36} style={{ borderRadius: '9px', objectFit: 'cover' }} />
           Jokoweb
         </div>
         <div className="nav-links">
@@ -539,7 +541,7 @@ export default function Home() {
       <footer>
         <div className="footer-grid">
           <div>
-            <div className="f-logo"><div className="f-logo-icon">W</div> Jokoweb</div>
+            <div className="f-logo"><Image src={logoImg} alt="Jokoweb Logo" width={34} height={34} style={{ borderRadius: '8px', objectFit: 'cover' }} /> Jokoweb</div>
             <p className="f-desc">Jasa pembuatan website profesional untuk UMKM dan bisnis lokal. Terjangkau, cepat, dan ada yang merawat setelah selesai.</p>
             <div className="f-socials">
               <div className="f-sm">ig</div>
